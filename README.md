@@ -56,7 +56,8 @@ return [
 
 ## Тестирование
 
-Postman [коллекция](https://www.postman.com/kirillstan1221/workspace/test/collection/29802884-0ac746ee-0c6b-4ff1-8897-9f55e999d752?action=share&creator=29802884)
+* Postman [коллекция](https://www.postman.com/kirillstan1221/workspace/test/collection/29802884-0ac746ee-0c6b-4ff1-8897-9f55e999d752?action=share&creator=29802884)
+* OpenAPI [описание спецификации .yaml](openapi.yaml) (в процессе ...)
 
 ## Зачем разработал этот проект?
 Чтобы был.
@@ -66,7 +67,7 @@ Postman [коллекция](https://www.postman.com/kirillstan1221/workspace/te
 - [x] Обработка CRUD операций
 - [x] Хранение данных в файле
 - [x] Хранение данных в базе
+- [x] Соблюдение методологии The Twelve-Factor App
 - [ ] Описание спецификации HTTP API
-- [ ] Соблюдение методологии The Twelve-Factor App
 - [ ] Создать Dockerfile для сервиса
 - [ ] Добавить сервис и все его зависимости в docker-compose

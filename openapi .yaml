@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: Pizza Factory API
+  description: Сервис управления пиццерией.
+  version: 0.0.1
+servers:
+  - url: http://pizzafactory/
+tags:
+  - name: orders
+    description: Управление заказами
+paths:
+  /orders:
+    get:
+      tags:
+        - orders
+      summary: Возвращает список заказов
+      description: Список всех заказов, также может быть передан необязательный параметр done который фильтрует заказы по данному полю, если параметр не передан, то выводятся все заказы. Данный метод защищен ключом.
+      parameters:
+        - in: query
+          name: done
+          schema:
+            type: string
+            enum: [0, 1]
+          description: Параметр фильтрации заказов по статусу
+        - in: header
+          name: X-Auth-Key
+          required: true
+          schema:
+            type: string
+          example: "qwerty123"
+          
+      responses:
+        '200':
+          description: OK
+          content:        
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfOrders'
+        '400':
+          description: Bad Request
+          content:        
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Invalid contents in ?done
+        '404':
+          description: Not found
+          content:        
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Orders not found
+                    
+components:
+  schemas:
+    ArrayOfOrders:
+      type: array
+      items:
+        type: object
+        properties:
+            order_id:
+              type: string
+            done:
+              type: boolean
+        example:
+          - order_id: "110"
+            done: false
+          - order_id: "a123"
+            done: true

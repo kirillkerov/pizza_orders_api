@@ -8,8 +8,7 @@ API сервис для управления заказами пиццерии.
 - [Задачи](#задачи)
 
 ## Технологии
-- [GatsbyJS](https://www.gatsbyjs.com/)
-- [TypeScript](https://www.typescriptlang.org/)
+- [PHP 8](https://www.php.net/downloads.php)
 - ...
 
 ## Требования

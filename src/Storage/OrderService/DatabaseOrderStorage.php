@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Services\OrderService;
+namespace App\Storage\OrderService;
 
-use App\Services\AbstractDatabaseService;
+use App\Storage\AbstractDatabaseStorage;
 
-class DatabaseOrderService extends AbstractDatabaseService implements OrderServiceInterface
+class DatabaseOrderStorage extends AbstractDatabaseStorage implements OrderStorageInterface
 {
+    /**
+     * @param string|null $done
+     * @return array
+     */
     public function list(string $done = null): array
     {
         $sql = match ($done) {
@@ -24,6 +28,11 @@ class DatabaseOrderService extends AbstractDatabaseService implements OrderServi
         return $orders;
     }
 
+    /**
+     * @param string $order_id
+     * @return array|null
+     * @throws \Exception
+     */
     public function get(string $order_id): ?array
     {
         $stmt = $this->connect->prepare("SELECT * FROM orders WHERE order_id = ?");
@@ -41,6 +50,11 @@ class DatabaseOrderService extends AbstractDatabaseService implements OrderServi
         return $order ?: null;
     }
 
+    /**
+     * @param array $items
+     * @return array|null
+     * @throws \Exception
+     */
     public function create(array $items): ?array
     {
         $stmt = $this->connect->prepare("INSERT INTO orders (items) value (:items)");
@@ -50,6 +64,12 @@ class DatabaseOrderService extends AbstractDatabaseService implements OrderServi
         return $this->get($this->connect->lastInsertId());
     }
 
+    /**
+     * @param string $order_id
+     * @param array $items
+     * @return void
+     * @throws \Exception
+     */
     public function append(string $order_id, array $items): void
     {
         $order = $this->get($order_id);
@@ -65,6 +85,11 @@ class DatabaseOrderService extends AbstractDatabaseService implements OrderServi
         $stmt->execute();
     }
 
+    /**
+     * @param $order_id
+     * @return void
+     * @throws \Exception
+     */
     public function done($order_id): void
     {
         $order = $this->get($order_id);

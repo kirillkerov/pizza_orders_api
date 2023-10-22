@@ -1,11 +1,15 @@
 <?php
 
-namespace App\Services\OrderService;
+namespace App\Storage\OrderService;
 
-use App\Services\AbstractFileService;
+use App\Storage\AbstractFileStorage;
 
-class FIleOrderService extends AbstractFileService implements OrderServiceInterface
+class FileOrderStorage extends AbstractFileStorage implements OrderStorageInterface
 {
+    /**
+     * @param string|null $done
+     * @return array
+     */
     public function list(string $done = null): array
     {
         $orders = [];
@@ -31,6 +35,11 @@ class FIleOrderService extends AbstractFileService implements OrderServiceInterf
         return $orders;
     }
 
+    /**
+     * @param string $order_id
+     * @return array|null
+     * @throws \Exception
+     */
     public function get(string $order_id): ?array
     {
         $lines = file(STORAGE_PATH);
@@ -39,13 +48,11 @@ class FIleOrderService extends AbstractFileService implements OrderServiceInterf
             $order = explode(' ', trim($line));
 
             if ($order[0] == $order_id) {
-                $order = [
+                return [
                     'order_id' => $order[0],
                     'items' => unserialize($order[2]),
                     'done' => (bool) $order[1],
                 ];
-
-                return $order;
             }
         }
 
@@ -53,6 +60,11 @@ class FIleOrderService extends AbstractFileService implements OrderServiceInterf
         throw new \Exception('Order not found');
     }
 
+    /**
+     * @param array $items
+     * @return array|null
+     * @throws \Exception
+     */
     public function create(array $items): ?array
     {
         $order_id = uniqid();
@@ -62,6 +74,12 @@ class FIleOrderService extends AbstractFileService implements OrderServiceInterf
         return $this->get($order_id);
     }
 
+    /**
+     * @param string $order_id
+     * @param array $items
+     * @return void
+     * @throws \Exception
+     */
     public function append(string $order_id, array $items): void
     {
         $lines = file(STORAGE_PATH);
@@ -90,6 +108,11 @@ class FIleOrderService extends AbstractFileService implements OrderServiceInterf
         throw new \Exception('Order not found');
     }
 
+    /**
+     * @param $order_id
+     * @return void
+     * @throws \Exception
+     */
     public function done($order_id): void
     {
         $lines = file(STORAGE_PATH);

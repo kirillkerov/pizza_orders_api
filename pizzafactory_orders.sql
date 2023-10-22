@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `pizzafactory` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `pizzafactory`;
 -- MySQL dump 10.13  Distrib 8.0.33, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: pizzafactory
@@ -29,7 +27,7 @@ CREATE TABLE `orders` (
   `done` tinyint NOT NULL DEFAULT '0',
   `items` text NOT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +36,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (100,1,'a:7:{i:0;i:2;i:1;i:2;i:2;i:777;i:3;i:2;i:4;i:77;i:5;i:2;i:6;i:3;}'),(101,0,'a:4:{i:0;i:5000;i:1;i:2;i:2;i:3;i:3;i:3;}'),(102,0,'a:3:{i:0;i:123;i:1;i:33;i:2;i:2;}'),(103,0,'a:4:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:300;}'),(104,0,'a:4:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:3000;}');
+INSERT INTO `orders` VALUES (100,1,'a:7:{i:0;i:2;i:1;i:2;i:2;i:777;i:3;i:2;i:4;i:77;i:5;i:2;i:6;i:3;}'),(101,0,'a:4:{i:0;i:5000;i:1;i:2;i:2;i:3;i:3;i:3;}'),(102,0,'a:3:{i:0;i:123;i:1;i:33;i:2;i:2;}'),(103,0,'a:4:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:300;}'),(104,0,'a:10:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:3000;i:4;i:4;i:5;i:7;i:6;i:8;i:7;i:4;i:8;i:7;i:9;i:888;}'),(105,0,'a:4:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:3;}'),(106,0,'a:4:{i:0;i:1;i:1;i:2;i:2;i:3;i:3;i:3;}'),(107,0,'a:1:{i:0;i:155;}');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-22 11:29:20
+-- Dump completed on 2023-10-22 17:42:31

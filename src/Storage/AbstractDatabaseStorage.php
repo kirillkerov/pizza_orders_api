@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Storage;
 
 use App\Database;
 
-abstract class AbstractDatabaseService
+abstract class AbstractDatabaseStorage extends AbstractStorage
 {
     protected \PDO $connect;
 

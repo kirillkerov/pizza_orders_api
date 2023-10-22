@@ -1,6 +1,6 @@
 <?php
 
-header('Content-Type: application/json; charset=UNF-8');
+header('Content-Type: application/json; charset=UTF-8');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -10,7 +10,8 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 use App\Controllers\OrdersController;
 use App\Router;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use App\Storage\OrderService\DatabaseOrderStorage;
+use App\Storage\OrderService\FileOrderStorage;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -50,8 +51,13 @@ foreach ($match as $key => $value) {
     }
 }
 
+$storage = match (STORAGE_TYPE) {
+    'file' => new FileOrderStorage(),
+    'database' => new DatabaseOrderStorage(),
+};
+
 try {
-    $controller = new $controllerClassName();
+    $controller = new $controllerClassName($storage);
     call_user_func_array([$controller, $controllerActionName], array_merge($params, $_GET));
 } catch (Exception $e) {
     die(json_encode(['error' => $e->getMessage()]));

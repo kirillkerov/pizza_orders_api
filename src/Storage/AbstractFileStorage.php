@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Storage;
 
-abstract class AbstractFileService
+abstract class AbstractFileStorage extends AbstractStorage
 {
     public function __construct()
     {

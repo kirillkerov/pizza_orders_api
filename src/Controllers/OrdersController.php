@@ -2,89 +2,89 @@
 
 namespace App\Controllers;
 
-use App\Services\OrderService\DatabaseOrderService;
-use App\Services\OrderService\FIleOrderService;
+use App\Request\JsonRequest;
+use App\Rsponse\JsonErrorResponse;
+use App\Rsponse\JsonResponse;
+use App\Validators\OrderValidator;
 
-class OrdersController extends AbstractServiceController
+class OrdersController extends AbstractController
 {
-    protected string $fileServiceName = FIleOrderService::class;
-    protected string $databaseServiceName = DatabaseOrderService::class;
-
+    /**
+     * @param string|null $done
+     * @return void
+     */
     public function list(string $done = null): void
     {
         $this->auth();
 
         if (!in_array($done, ['0', '1', null])) {
-            http_response_code(400);
-            throw new \InvalidArgumentException('Invalid contents in ?done');
+            die(new JsonErrorResponse('Invalid contents in ?done', 400));
         }
 
-        if (!count($orders = $this->service->list($done))) {
-            http_response_code(404);
-            throw new \InvalidArgumentException('Not found orders');
+        if (!count($orders = $this->storage->list($done))) {
+            die(new JsonErrorResponse('Not found orders', 404));
         }
 
-        echo json_encode($orders);
+        echo new JsonResponse($orders);
     }
 
+    /**
+     * @return void
+     */
     public function create(): void
     {
-        $request = json_decode(file_get_contents('php://input'), true);
+        $request = JsonRequest::get();
+
         if (!isset($request['items'])) {
-            http_response_code(400);
-            throw new \InvalidArgumentException('Request must contain an array of items');
+            die(new JsonErrorResponse('Request must contain an array of items', 400));
         }
-        $this->validateItemsArray($request['items']);
 
-        $order = $this->service->create($request['items']);
-        http_response_code(201);
+        if (!OrderValidator::items($request['items'])) {
+            die(new JsonErrorResponse('Items must be an array of integers from 1 to 5000', 400));
+        }
 
-        echo json_encode($order);
+        $order = $this->storage->create($request['items']);
+
+        echo new JsonResponse($order, 201);
     }
 
+    /**
+     * @param string $order_id
+     * @return void
+     * @throws \Exception
+     */
     public function append(string $order_id): void
     {
-        $items = json_decode(file_get_contents('php://input'), true);
-        $this->validateItemsArray($items);
+        $items = JsonRequest::get();
 
-        $this->service->append($order_id, $items);
+        if (!OrderValidator::items($items)) {
+            die(new JsonErrorResponse('Items must be an array of integers from 1 to 5000', 400));
+        }
+
+        $this->storage->append($order_id, $items);
     }
 
+    /**
+     * @param string $order_id
+     * @return void
+     * @throws \Exception
+     */
     public function get(string $order_id): void
     {
-        $order = $this->service->get($order_id);
+        $order = $this->storage->get($order_id);
 
-        echo json_encode($order);
+        echo new JsonResponse($order);
     }
 
-    public function done(string $order_id)
+    /**
+     * @param string $order_id
+     * @return void
+     * @throws \Exception
+     */
+    public function done(string $order_id): void
     {
         $this->auth();
 
-        $this->service->done($order_id);
-    }
-
-    private function auth(): void
-    {
-        $headers = getallheaders();
-        if (!isset($headers['X-Auth-Key']) || !in_array($headers['X-Auth-Key'], AUTH_TOKENS_ARR)) {
-            http_response_code(403);
-            die(json_encode(['error' => 'Access is denied']));
-        }
-    }
-
-    private function validateItemsArray($items): void
-    {
-        if (!is_array($items) || !count($items)) {
-            http_response_code(400);
-            throw new \InvalidArgumentException('Items must be an array');
-        }
-
-        foreach ($items as $item) {
-            if (!is_int($item) || $item < 1 || $item > 5000) {
-                http_response_code(400);
-                throw new \InvalidArgumentException('Items must be an array of integers from 1 to 5000');
-            }
-        }
+        $this->storage->done($order_id);
     }
 }

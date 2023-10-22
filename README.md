@@ -25,13 +25,18 @@ API сервис для управления заказами пиццерии.
 composer update
 ```
 
-### Установка способа хранения (/config/app.php):
+### Установка способа хранения [/config/app.php](/config/app.php):
 
 ```php
 return [
     'storageType' => 'database', // file | database
 ];
 ```
+
+### Миграции:
+
+Пока что необходимо выполнить "вручную". Дамп базы с тестовыми данными находится в корне репозитория: [pizzafactory_orders.sql](pizzafactory_orders.sql)
+
 
 ## Зачем разработал этот проект?
 Чтобы был.

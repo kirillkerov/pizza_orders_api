@@ -32,7 +32,7 @@ $matcher = new UrlMatcher($collection, new RequestContext('/', $_SERVER["REQUEST
 try {
     $match = $matcher->match(strtok($_SERVER["REQUEST_URI"], '?'));
 } catch (Exception $e) {
-    die($e->getMessage() ?: 'No routes found for this path');
+    die(json_encode(['error' => $e->getMessage() ?: 'No routes found for this path']));
 }
 
 $params = [];

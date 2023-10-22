@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'storageType' => 'database', // file/database
+    'storageType' => 'database', // file | database
 ];

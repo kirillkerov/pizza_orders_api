@@ -1,4 +1,4 @@
-# PIZZA FACTORY API
+# Pizza Factory API
 API сервис для управления заказами пиццерии. 
 
 ## Содержание
@@ -9,6 +9,8 @@ API сервис для управления заказами пиццерии.
 
 ## Технологии
 - [PHP 8](https://www.php.net/downloads.php)
+- [Composer](https://getcomposer.org/)
+- [Symfony routing component](https://packagist.org/packages/symfony/routing)
 - ...
 
 ## Требования
@@ -20,7 +22,7 @@ API сервис для управления заказами пиццерии.
 
 После выгрузки репозитория, необходимо установить все зависимости командой
 ```sh
-$ composer update
+composer update
 ```
 
 ### Установка способа хранения (/config/app.php):
@@ -35,6 +37,7 @@ return [
 Чтобы был.
 
 ## Задачи
+- [x] Маршрутизация с использованием компонента symfony/routing
 - [x] Обработка CRUD операций
 - [x] Хранение данных в файле
 - [x] Хранение данных в базе
